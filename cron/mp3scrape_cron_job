@@ -1,0 +1,26 @@
+#! /bin/bash
+
+set -e
+
+##
+
+LOCKFILE="/www/hacks.so/cron/daily.lock"
+
+trap "rm -f $LOCKFILE" EXIT
+
+if [ -e "$LOCKFILE" ]; then
+    echo >&2 "Warning: $LOCKFILE present, not running scrape."
+    exit 1
+else
+    touch "$LOCKFILE"
+fi
+
+##
+
+# See ionice(1)
+if [ -x /usr/bin/ionice ] &&
+    /usr/bin/ionice -c3 true 2>/dev/null; then
+    IONICE="/usr/bin/ionice -c3"
+fi
+
+cd /www/hacks.so/cron/ && $IONICE scrapy crawl brooklynvegan && $IONICE scrapy crawl 3hive && $IONICE scrapy crawl aquariumdrunkard && $IONICE scrapy crawl hearya && $IONICE scrapy crawl heroesofindiemusic && $IONICE scrapy crawl musicforrobots && $IONICE scrapy crawl obscuresound && $IONICE scrapy crawl newdust && ./jsondump.py

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+		<script type="text/javascript" src="js/play.js"></script>
+		<script type="text/javascript" src="js/soundmanager2-jsmin.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/play.css"/>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="current_holder" style="position:absolute;" ></div>
+		</div>
+		<script>
+			soundManager.setup({
+  			url: 'swf/',
+                        preferFlash: false,
+  			onready: function() {
+ 				getPlaylist(new Date());
+  			}
+			});
+		</script>
+
+	</body>
+
+</html>
