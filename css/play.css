@@ -46,6 +46,14 @@ body{
     width: 100%;	
 }
 
+#sticky .play_button {
+    background: url('/images/pause_on.png') no-repeat left center;
+    width: 32px;
+    float: left;
+    margin-right:5px;
+}
+    
+
 .sticky_top {
     position:fixed;
     top:0;
@@ -115,4 +123,18 @@ body{
 
 .gone{
     display:none;
+}
+
+.play_button {
+    background: url('/images/play.png') no-repeat left center;
+    width: 32px;
+    float: left;
+    margin-right:5px;
+}
+
+.selected .play_button {
+    background: url('/images/pause_on.png') no-repeat left center;
+    width: 32px;
+    float: left;
+    margin-right:5px;
 }

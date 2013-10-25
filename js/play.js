@@ -54,8 +54,13 @@ function playMp3_orig(path,num){
 
 function playMp3(path,num){
 
-    soundManager.stopAll();
-    clearAllProgress();
+    if(currentTrack == num) {
+        clearCurrent();
+	return;    
+    }
+    
+    clearCurrent();
+    
     currentTrack = num;
 
     $('.track').each(function(a,itm){$('#track'+a).removeClass('selected')});
@@ -110,7 +115,10 @@ function drawPlaylist(s){
 
     var wrap = document.getElementById('wrap');
     wrap.innerHTML = '<div id="sticky" class="gone track"></div>';
-    
+    document.getElementById("sticky").onclick = function() {
+        clearCurrent();
+    }
+
     for(x=0;x<s.length;x++){
 
         var div = document.createElement('div');
@@ -125,11 +133,10 @@ function drawPlaylist(s){
         div.setAttribute('class','track ' + color.toString(16));
         div.onclick = function(){
             var d = this.data.split(':'); 
-            clearCurrent();
             playMp3(d[0],d[1]); 
         };
         div.data = s[x].local_url + ':' + x;
-        div.innerHTML = /*'<span>&#9734;</span>&nbsp;*/ '<span class="title">' + s[x].id3_title + '</span><span class="dash">-</span><span class="artist">' + s[x].id3_artist + '</span><div class="progress" id="progress'+x+'"></div>';
+        div.innerHTML = '<div class="play_button">&nbsp;</div><span class="title">' + s[x].id3_title + '</span><span class="dash">-</span><span class="artist">' + s[x].id3_artist + '</span><div class="progress" id="progress'+x+'"></div>';
         wrap.appendChild(div);
         color+=16*dx;
     }
@@ -176,10 +183,17 @@ function clearAllProgress(){
 }
 
 function clearCurrent() {
+
     sticky=$('#sticky');
     sticky.addClass('gone');
     sticky.removeClass('sticky_top');
     sticky.removeClass('sticky_bottom');	
+
+    soundManager.stopAll();
+    clearAllProgress();
+    $('.track').each(function(a,itm){$('#track'+a).removeClass('selected')});
+    currentTrack = -1;
+
 }
 
 function stickCurrent() {
