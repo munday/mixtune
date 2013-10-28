@@ -6,7 +6,7 @@
 #     http://doc.scrapy.org/topics/settings.html
 #
 
-BOT_NAME = 'soundo'
+BOT_NAME = 'mixtune'
 BOT_VERSION = '0.1'
 
 SPIDER_MODULES = ['mp3scrape.spiders']
