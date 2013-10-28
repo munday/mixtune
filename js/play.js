@@ -1,59 +1,9 @@
+var baseAddr = "http://hacks.so";
 var currentTrack = -1;
 var progressInterval;
 var songs = {};
 
-function getAudio(){
-    var a = document.getElementById('audio');
-    if(!a){
-        a = document.createElement('audio');
-        a.id = 'audio';
-	document.body.appendChild(a);
-    }
-    
-    a.addEventListener('ended', nextTrack);
-   
-    return a;
-}
-
-function canPlayAudio(audio, type){
-
-    var t = 'audio/mpeg';
-
-    switch(type){
-        case 2:
-            type='audio/ogg; codecs="vorbis"';
-        break;	
-    }
-        
-    if (audio.canPlayType) {
-       // Currently canPlayType(type) returns: "", "maybe" or "probably" 
-       return !!audio.canPlayType && "" != audio.canPlayType(t);
-    }
-
-    return false;
-
-}
-
-
-function playMp3_orig(path,num){
-
-    var audio = getAudio();
-    $('.track').each(function(a,itm){$('#track'+a).removeClass('selected')});
-    $('#track'+num).addClass('selected');
-    if(canPlayAudio(audio,1)){
-        audio.src = path;
-	audio.controls = true;
-        audio.play();
-	currentTrack=num;
-	clearInterval(progressInterval);
-	clearAllProgress();
-	progressInterval = setInterval(updateProgress,200);
-    }
-	
-}
-
 function playMp3(path,num){
-
     if(currentTrack == num) {
         clearCurrent();
 	return;    
@@ -69,7 +19,6 @@ function playMp3(path,num){
     var soundId = 'track' + num;
     var sound = soundManager.createSound({id: soundId, url: path, whileplaying: function(){progress(this.position, this.duration)} });
     sound.play();
-	
 }
 
 function progress(time, duration) {
@@ -77,7 +26,6 @@ function progress(time, duration) {
 }
 
 function getPlaylist(d){
-
     var day = d.getDate();
     var month = d.getMonth()+1;
     var year = d.getFullYear();
@@ -93,7 +41,7 @@ function getPlaylist(d){
 
     $.ajax({
         type: "GET",
-        url: "http://hacks.so/playlists/songs-"+year+"-"+month+"-"+day+".json",
+        url: baseAddr + "/playlists/songs-"+year+"-"+month+"-"+day+".json",
         data: {},
 	statusCode: {
             404: function() {
@@ -104,11 +52,9 @@ function getPlaylist(d){
     }).done(function( msg ) {
         drawPlaylist(msg);
     });    
-
 }
 
 function drawPlaylist(s){
-
     songs = s;
     var color = 0x0b0;
     var dx = 1;
@@ -142,12 +88,6 @@ function drawPlaylist(s){
     }
 
     $(window).scroll(stickCurrent);
-
-}
-
-function getAlbumArt(title){
-    var script = document.createElement('script');
-    script.src = 'http://api.discogs.com/artists/1?callback=changeBg';
 }
 
 function nextTrack(){
@@ -161,12 +101,6 @@ function nextTrack(){
         currentTrack=-1;
         nextTrack();
     }
-
-}
-
-function updateProgress(){
-    var audio = document.getElementById('audio');
-    setProgress(currentTrack, audio.currentTime/audio.duration * 100);
 }
 
 function setProgress(num,pct){
@@ -183,7 +117,6 @@ function clearAllProgress(){
 }
 
 function clearCurrent() {
-
     sticky=$('#sticky');
     sticky.addClass('gone');
     sticky.removeClass('sticky_top');
@@ -193,7 +126,6 @@ function clearCurrent() {
     clearAllProgress();
     $('.track').each(function(a,itm){$('#track'+a).removeClass('selected')});
     currentTrack = -1;
-
 }
 
 function stickCurrent() {
@@ -221,5 +153,4 @@ function stickCurrent() {
 	sticky.removeClass('sticky_top');
 	sticky.removeClass('sticky_bottom');
     }
-
 }
