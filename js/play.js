@@ -107,6 +107,16 @@ function nextTrack(){
     }
 }
 
+function prevTrack(){
+    newTrack=parseInt(currentTrack)-1;
+    clearCurrent();
+    var itm = document.getElementById('track'+newTrack);
+    if(itm){
+        var path = itm.data.split(':')[0];
+        playMp3(path,newTrack);
+    }
+}
+
 function setProgress(num,pct){
     var progress = document.getElementById('track'+num).getElementsByClassName('progress')[0];
     var progress2 = document.getElementById('sticky').getElementsByClassName('progress')[0];
@@ -158,3 +168,21 @@ function stickCurrent() {
 	sticky.removeClass('sticky_bottom');
     }
 }
+
+function onKeyPressed(e){
+   
+    if(e==null) return;
+
+    switch(e.keyCode) {
+        case 39:
+	    nextTrack();
+            break;
+        case 37:
+            prevTrack();
+            break;
+	default:
+    }
+
+}
+
+document.onkeyup = onKeyPressed;
