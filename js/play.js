@@ -17,8 +17,15 @@ function playMp3(path,num){
     $('#track'+num).addClass('selected');
 
     var soundId = 'track' + num;
-    var sound = soundManager.createSound({id: soundId, url: path, whileplaying: function(){progress(this.position, this.duration)} });
-    sound.play();
+    var sound = soundManager.createSound(
+        {
+            id: soundId, 
+	    url: path, 
+	    whileplaying: function(){progress(this.position, this.duration)},
+            onfinish: nextTrack
+        }
+    );
+    sound.play();    
 }
 
 function progress(time, duration) {
@@ -91,15 +98,12 @@ function drawPlaylist(s){
 }
 
 function nextTrack(){
+    newTrack=parseInt(currentTrack)+1;
     clearCurrent();
-    currentTrack++;
-    var itm = document.getElementById('track'+currentTrack);
+    var itm = document.getElementById('track'+newTrack);
     if(itm){
         var path = itm.data.split(':')[0];
-        playMp3(path,currentTrack);
-    }else{
-        currentTrack=-1;
-        nextTrack();
+        playMp3(path,newTrack);
     }
 }
 
@@ -125,7 +129,7 @@ function clearCurrent() {
     soundManager.stopAll();
     clearAllProgress();
     $('.track').each(function(a,itm){$('#track'+a).removeClass('selected')});
-    currentTrack = -1;
+    currentTrack=-1;
 }
 
 function stickCurrent() {
