@@ -2,7 +2,10 @@
   "name": "mixtune",
   "description": "Description of the app",
   "icons": {
-    "128": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAVklEQVR4nO3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOBvAI8AAT4ZY7sAAAAASUVORK5CYII="
+	"128":"images/icon-128.png",
+	"64":"images/icon-64.png",
+	"60":"images/icon-60.png",
+	"32":"images/icon-32.png"
   },
   "launch_path": "index.html"
 }
